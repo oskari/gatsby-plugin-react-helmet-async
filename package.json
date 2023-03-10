@@ -21,7 +21,7 @@
     "author": "Martin Rosenberg <Martin.B.Rosenberg@gmail.com> (https://martinbrosenberg.com)",
     "main": "index.js",
     "scripts": {
-        "prepublish": "yarn build",
+        "prepare": "yarn build",
         "build": "tsc --build",
         "clean": "rm gatsby-browser.d.ts gatsby-browser.js gatsby-ssr.d.ts gatsby-ssr.js",
         "lint": "eslint src --ext ts,tsx --fix",
@@ -42,7 +42,7 @@
         "eslint-plugin-prettier": "^4.2.1",
         "eslint-plugin-promise": "^6.1.1",
         "eslint-plugin-react": "^7.31.10",
-        "gatsby": "^3.8.0",
+        "gatsby": "^4.25.5",
         "prettier": "^2.7.1",
         "prettier-eslint": "^15.0.1",
         "react": "^17.0.2",

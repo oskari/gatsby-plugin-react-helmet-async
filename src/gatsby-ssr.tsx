@@ -2,18 +2,19 @@ import { GatsbySSR, RenderBodyArgs, WrapRootElementNodeArgs } from 'gatsby';
 import React from 'react';
 import { HelmetProvider, HelmetServerState } from 'react-helmet-async';
 
-const context: { helmet?: HelmetServerState } = {};
+const context: { [pathname: string]: { helmet?: HelmetServerState } } = {};
 
 export const onRenderBody: GatsbySSR['onRenderBody'] = ({
+    pathname,
     setHeadComponents,
     setHtmlAttributes,
     setBodyAttributes
 }: RenderBodyArgs): void => {
-    const { helmet } = context;
+    const { helmet } = context[pathname];
 
     if (helmet) {
         const baseComponent = helmet.base.toComponent();
-        const titleComponent = helmet.title.toComponent() as unknown as any[];
+        const titleComponent = helmet.title.toComponent();
         const components = [
             helmet.priority.toComponent(),
             helmet.meta.toComponent(),
@@ -35,7 +36,11 @@ export const onRenderBody: GatsbySSR['onRenderBody'] = ({
 };
 
 export const wrapRootElement: GatsbySSR['wrapRootElement'] = ({
+    pathname,
     element
-}: WrapRootElementNodeArgs): React.ReactElement => (
-    <HelmetProvider context={context}>{element}</HelmetProvider>
-);
+}: WrapRootElementNodeArgs): React.ReactElement => {
+    context[pathname] = {};
+    return (
+        <HelmetProvider context={context[pathname]}>{element}</HelmetProvider>
+    );
+};

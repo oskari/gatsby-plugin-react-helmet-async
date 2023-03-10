@@ -18,8 +18,8 @@ var react_helmet_async_1 = require("react-helmet-async");
 var context = {};
 var onRenderBody = function (_a) {
     var _b;
-    var setHeadComponents = _a.setHeadComponents, setHtmlAttributes = _a.setHtmlAttributes, setBodyAttributes = _a.setBodyAttributes;
-    var helmet = context.helmet;
+    var pathname = _a.pathname, setHeadComponents = _a.setHeadComponents, setHtmlAttributes = _a.setHtmlAttributes, setBodyAttributes = _a.setBodyAttributes;
+    var helmet = context[pathname].helmet;
     if (helmet) {
         var baseComponent = helmet.base.toComponent();
         var titleComponent = helmet.title.toComponent();
@@ -31,7 +31,10 @@ var onRenderBody = function (_a) {
             helmet.script.toComponent(),
             helmet.noscript.toComponent()
         ];
-        setHeadComponents(((_b = titleComponent[0]) === null || _b === void 0 ? void 0 : _b.props.children)
+        setHeadComponents(
+        // eslint-disable-next-line
+        // @ts-ignore
+        ((_b = titleComponent[0]) === null || _b === void 0 ? void 0 : _b.props.children)
             ? __spreadArray([baseComponent, titleComponent], components, true) : __spreadArray([baseComponent], components, true));
         setHtmlAttributes(helmet.htmlAttributes.toComponent());
         setBodyAttributes(helmet.bodyAttributes.toComponent());
@@ -39,7 +42,8 @@ var onRenderBody = function (_a) {
 };
 exports.onRenderBody = onRenderBody;
 var wrapRootElement = function (_a) {
-    var element = _a.element;
-    return (react_1.default.createElement(react_helmet_async_1.HelmetProvider, { context: context }, element));
+    var pathname = _a.pathname, element = _a.element;
+    context[pathname] = {};
+    return (react_1.default.createElement(react_helmet_async_1.HelmetProvider, { context: context[pathname] }, element));
 };
 exports.wrapRootElement = wrapRootElement;
